@@ -96,6 +96,12 @@ MainWindow::MainWindow(QWidget *parent)
     action_about = new QAction;
 
     menuBar->addMenu(menu_3);
+
+    mainWidgetLayout->addWidget(menuBar);
+    mainWidgetLayout->addWidget(lineEdit);
+    mainWidgetLayout->addWidget(tableWidget);
+
+    this->setCentralWidget(mainWidget);
 }
 
 
