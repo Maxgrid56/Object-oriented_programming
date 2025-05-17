@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     mainWidget->setLayout(mainWidgetLayout);
 
     tableWidget = new QTableWidget;
+    tableWidget->setColumnCount(4);
     tableWidget->setFont(*mainFont);
     tableWidget->setContextMenuPolicy(Qt::DefaultContextMenu);
     tableWidget->setFrameShape(QFrame::Box);
@@ -38,9 +39,12 @@ MainWindow::MainWindow(QWidget *parent)
     tableWidget->setTextElideMode(Qt::ElideMiddle);
     tableWidget->setHorizontalHeaderLabels(headers);
 
+    connect(tableWidget, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(on_tableWidget_cellDoubleClicked(int,int)));
 
     lineEdit = new QLineEdit;
     lineEdit->setPlaceholderText("Поиск");
+
+    connect(lineEdit, SIGNAL(textChanged(QString)), this, SLOT(on_lineEdit_textChanged(QString)));
 
     menuBar = new QMenuBar;
     menuBar->setGeometry(0, 0, 920, 31);
@@ -211,7 +215,7 @@ void MainWindow::on_action_Add_triggered()
         tableWidget->setItem(tableWidget->rowCount() - 1, 0, new QTableWidgetItem(t.getType()));
         //tableWidget->item(tableWidget->rowCount() - 1, 0)->setTextColor(typeColor);
         tableWidget->setItem(tableWidget->rowCount() - 1, 1, new QTableWidgetItem(t.getName()));
-        tableWidget->setItem(tableWidget->rowCount() - 1, 2, new QTableWidgetItem(/*QString::number(len)*/ t.getNArguments()));
+        tableWidget->setItem(tableWidget->rowCount() - 1, 2, new QTableWidgetItem(/*QString::number(len)*/ QString::number(t.getNArguments())));
         /*
         QString arg = "";
 
@@ -265,8 +269,8 @@ void MainWindow::on_action_Edit_triggered()
         Add_Dialog myDialog;
         myDialog.setType(list.at(0)->text());
         myDialog.setName(list.at(1)->text());
-        myDialog.setArgs(list.at(3)->text());
-        myDialog.setComment(list.at(4)->text());
+        myDialog.setArgs(list.at(2)->text());
+        myDialog.setComment(list.at(3)->text());
 
         if (myDialog.exec() == QDialog::Accepted)
         {
@@ -354,7 +358,7 @@ void MainWindow::on_action_Clear_triggered()
 }
 
 
-void MainWindow::on_action_Open_triggered(bool isClean)
+void MainWindow::on_action_Open_triggered(bool isClean)             //нужно разобраться с тем, чтобы таблица очищалась и убирала лишние строки перед открытием нового файла
 {
     QString file_name = QFileDialog::getOpenFileName(this, "Открыть файл...", ".", "CSV files (*.csv);;All files (*.*);;");
     QFileInfo check_file(file_name);
@@ -370,6 +374,10 @@ void MainWindow::on_action_Open_triggered(bool isClean)
         {
             QTextStream in(&file);
 
+            tableWidget->clear();
+            tableWidget->setRowCount(0);
+            tableWidget->setHorizontalHeaderLabels(headers);
+
             while (!in.atEnd())
             {
                 dataBase t;
@@ -380,8 +388,8 @@ void MainWindow::on_action_Open_triggered(bool isClean)
                 {
                     t.setType(fields[0].simplified());
                     t.setName(fields[1].simplified());
-                    QString s_args = "";
-                    QStringList args = fields[2].split(",");
+                    //QString s_args = "";
+                    //QStringList args = fields[2].split(",");
                     //auto len = args.size();
                     //t.setNArguments(len);
                     /*
@@ -396,6 +404,7 @@ void MainWindow::on_action_Open_triggered(bool isClean)
                         }
                     }
                     */
+                    t.setNArguments(fields[2].toInt());
                     t.setComment(fields[3].simplified());
                     tableWidget->setRowCount(tableWidget->rowCount() + 1);
                     tableWidget->setItem(tableWidget->rowCount() -1, 0, new QTableWidgetItem(t.getType()));
@@ -439,8 +448,9 @@ void MainWindow::on_action_Save_triggered()
         {
             QString type = tableWidget->item(i, 0)->text();
             QString name = tableWidget->item(i, 1)->text();
-            QString args = tableWidget->item(i, 3)->text();
-            QString comment = tableWidget->item(i, 4)->text();
+            QString args = tableWidget->item(i, 2)->text();
+            QString comment = tableWidget->item(i, 3)->text();
+
             out << type << ";" << name << ";" << args << ";" << comment << "\n";
         }
 
