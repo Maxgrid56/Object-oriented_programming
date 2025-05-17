@@ -55,6 +55,13 @@ MainWindow::MainWindow(QWidget *parent)
     action_Merge = new QAction;
     action_Exit = new QAction;
 
+    action_New->setText("Создать...");
+    action_Open->setText("Открыть...");
+    action_Save->setText("Сохранить");
+    action_SaveAs->setText("Сохранить как...");
+    action_Merge->setText("Соеденить...");
+    action_Exit->setText("Выход");
+
     //action_New->setShortcut("Ctrl+N");
     //action_Open->setShortcut("Ctrl+O");
     //action_Save->setShortcut("Ctrl+S");
@@ -67,6 +74,13 @@ MainWindow::MainWindow(QWidget *parent)
     menu->addAction(action_Merge);
     menu->addAction(action_Exit);
 
+    connect(action_New, SIGNAL(triggered(bool)), this, SLOT(on_action_New_triggered()));
+    connect(action_Open, SIGNAL(triggered(bool)), this, SLOT(on_action_Open_triggered(bool)));
+    connect(action_Save, SIGNAL(triggered(bool)), this, SLOT(on_action_Save_triggered()));
+    connect(action_SaveAs, SIGNAL(triggered(bool)), this, SLOT(on_action_SaveAs_triggered()));
+    connect(action_Merge, SIGNAL(triggered(bool)), this, SLOT(on_action_Merge_triggered()));
+    connect(action_Exit, SIGNAL(triggered(bool)), this, SLOT(on_action_Exit_triggered()));
+
     menuBar->addMenu(menu);
 
     menu_2 = new QMenu;
@@ -78,6 +92,12 @@ MainWindow::MainWindow(QWidget *parent)
     action_Clear = new QAction;
     action_ShowData = new QAction;
 
+    action_Add->setText("Добавить...");
+    action_Delete->setText("Удалить");
+    action_Edit->setText("Редактировать");
+    action_Clear->setText("Очистить");
+    action_ShowData->setText("Вывести");
+
     //action_Add->setShortcut("Ctrl+A");
     //action_Delete->setShortcut("Ctrl+D");
     //action_Clear->setShortcut("Ctrl+P");
@@ -88,12 +108,24 @@ MainWindow::MainWindow(QWidget *parent)
     menu_2->addAction(action_Clear);
     menu_2->addAction(action_ShowData);
 
+    connect(action_Add, SIGNAL(triggered(bool)), this, SLOT(on_action_Add_triggered()));
+    connect(action_Delete, SIGNAL(triggered(bool)), this, SLOT(on_action_Delete_triggered()));
+    connect(action_Edit, SIGNAL(triggered(bool)), this, SLOT(on_action_Edit_triggered()));
+    connect(action_Clear, SIGNAL(triggered(bool)), this, SLOT(on_action_Clear_triggered()));
+    connect(action_ShowData, SIGNAL(triggered(bool)), this, SLOT(on_action_ShowData_triggered()));
+
     menuBar->addMenu(menu_2);
 
     menu_3 = new QMenu;
     menu_3->setTitle("Помощь");
 
     action_about = new QAction;
+
+    action_about->setText("О программе");
+
+    menu_3->addAction(action_about);
+
+    connect(action_about, SIGNAL(triggered(bool)), this, SLOT(on_action_About_triggered()));
 
     menuBar->addMenu(menu_3);
 
@@ -173,14 +205,14 @@ void MainWindow::on_action_Add_triggered()
     if (myDialog.exec() == QDialog::Accepted)
     {
         dataBase t = myDialog.getData();
-        auto len = t.getNArguments();
+        //auto len = t.getNArguments();
 
         tableWidget->setRowCount(tableWidget->rowCount() + 1);
         tableWidget->setItem(tableWidget->rowCount() - 1, 0, new QTableWidgetItem(t.getType()));
         //tableWidget->item(tableWidget->rowCount() - 1, 0)->setTextColor(typeColor);
         tableWidget->setItem(tableWidget->rowCount() - 1, 1, new QTableWidgetItem(t.getName()));
-        tableWidget->setItem(tableWidget->rowCount() - 1, 2, new QTableWidgetItem(QString::number(len)));
-
+        tableWidget->setItem(tableWidget->rowCount() - 1, 2, new QTableWidgetItem(/*QString::number(len)*/ t.getNArguments()));
+        /*
         QString arg = "";
 
         if (len > 0)
@@ -191,8 +223,9 @@ void MainWindow::on_action_Add_triggered()
                 arg += ", " + t[i];
             }
         }
-        tableWidget->setItem(tableWidget->rowCount() - 1, 3, new QTableWidgetItem(arg));
-        tableWidget->setItem(tableWidget->rowCount() - 1, 4, new QTableWidgetItem(t.getComment()));
+        */
+        //tableWidget->setItem(tableWidget->rowCount() - 1, 3, new QTableWidgetItem(arg));
+        tableWidget->setItem(tableWidget->rowCount() - 1, 3, new QTableWidgetItem(t.getComment()));         //изменил позицию с 1,4 на 1,3
         //tableWidget->item(tableWidget->rowCount() - 1, 4)->setTextColor(commentColor);
         main_vector.push_back(t);
         //statusBar->showMessage("Запись добавлена");
@@ -241,9 +274,9 @@ void MainWindow::on_action_Edit_triggered()
             list.at(0)->setText(t.getType());
             list.at(1)->setText(t.getName());
             list.at(2)->setText(QString::number(t.getNArguments()));
-            auto len = t.getNArguments();
+            //auto len = t.getNArguments();
             QString arg = "";
-
+            /*
             if (len > 0)
             {
                 arg = t[0];
@@ -253,15 +286,15 @@ void MainWindow::on_action_Edit_triggered()
                     arg += ", " + t[i];
                 }
             }
-
-            list.at(3)->setText(arg);
-            list.at(4)->setText(t.getComment());
+            */
+            //list.at(3)->setText(arg);
+            list.at(3)->setText(t.getComment());
             main_vector[list.at(0)->row()].setType(t.getType());
             main_vector[list.at(1)->row()].setName(t.getName());
             main_vector[list.at(2)->row()].setNArguments(t.getNArguments());
-            int k = list.at(3)->row();
-            std::copy(t.begin(), t.end(), main_vector[k].begin());
-            main_vector[list.at(4)->row()].setComment(t.getComment());
+            //int k = list.at(3)->row();
+            //std::copy(t.begin(), t.end(), main_vector[k].begin());
+            main_vector[list.at(3)->row()].setComment(t.getComment());
             //statusBar->showMessage("Запись отредактирована");
             setWindowTitle("*" + file_ + " – Характеристика фильмов");
         }
@@ -349,9 +382,9 @@ void MainWindow::on_action_Open_triggered(bool isClean)
                     t.setName(fields[1].simplified());
                     QString s_args = "";
                     QStringList args = fields[2].split(",");
-                    auto len = args.size();
-                    t.setNArguments(len);
-
+                    //auto len = args.size();
+                    //t.setNArguments(len);
+                    /*
                     if (len > 0)
                     {
                         t[0] = args[0].simplified();
@@ -362,15 +395,15 @@ void MainWindow::on_action_Open_triggered(bool isClean)
                             s_args += ", " + t[i];
                         }
                     }
-
+                    */
                     t.setComment(fields[3].simplified());
                     tableWidget->setRowCount(tableWidget->rowCount() + 1);
                     tableWidget->setItem(tableWidget->rowCount() -1, 0, new QTableWidgetItem(t.getType()));
                     //tableWidget->item(tableWidget->rowCount() - 1,0)->setTextColor(typeColor);
                     tableWidget->setItem(tableWidget->rowCount() -1, 1, new QTableWidgetItem(t.getName()));
                     tableWidget->setItem(tableWidget->rowCount() -1, 2, new QTableWidgetItem(QString::number(t.getNArguments())));
-                    tableWidget->setItem(tableWidget->rowCount() -1, 3, new QTableWidgetItem(s_args));
-                    tableWidget->setItem(tableWidget->rowCount() -1, 4, new QTableWidgetItem(t.getComment()));
+                    //tableWidget->setItem(tableWidget->rowCount() -1, 3, new QTableWidgetItem(s_args));
+                    tableWidget->setItem(tableWidget->rowCount() -1, 3, new QTableWidgetItem(t.getComment()));
                     //tableWidget->item(tableWidget->rowCount() - 1,4)->setTextColor(commentColor);
                     main_vector.push_back(t);
                 }
@@ -452,9 +485,9 @@ void MainWindow::on_action_ShowData_triggered()
     QString s;
     for (auto &k : main_vector)
     {
-        QString arg = "";
-        int len = k.getNArguments();
-
+        QString arg = QString::number(k.getNArguments());
+        //int len = k.getNArguments();
+        /*
         if (len > 0)
         {
             arg = k[0];
@@ -463,7 +496,7 @@ void MainWindow::on_action_ShowData_triggered()
                 arg += ", " + k[i];
             }
         }
-
+        */
         s += k.getType() + ";" + k.getName() + ";" + arg + ";" +
         k.getComment() + "\n";
     }

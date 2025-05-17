@@ -40,7 +40,7 @@ private:
 
 
     QTableWidget* tableWidget;
-    QStringList headers ={"Название", "Год выхода", "Режиссёр", "Комментарий"};     //все строки с названиями столбцов
+    QStringList headers ={"Название", "Режиссёр", "Год выхода", "Комментарий"};     //все строки с названиями столбцов
 
     QLineEdit* lineEdit;
 

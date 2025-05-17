@@ -3,18 +3,22 @@
 dataBase::dataBase() {}
 
 // Конструктор
-dataBase::dataBase(QString name, QString type, QString comment, int n)
-    : name(name), type(type), n_arguments(n), comment(comment) {
+dataBase::dataBase(QString movie, QString director, int year, QString comment)
+    : movie(movie), director(director), year(year), comment(comment) {
+    /*
     if (n_arguments > 0) {
         arguments = new QString[static_cast<unsigned>(n_arguments)];
     }
+    */
 }
 // Конструктор копирования
-dataBase::dataBase(const dataBase &da) : dataBase(da.name, da.type,
-               da.comment, da.n_arguments) {
+dataBase::dataBase(const dataBase &da) : dataBase(da.movie, da.director,
+               da.year, da.comment) {
+    /*
     if (n_arguments > 0) {
         std::copy(da.arguments, da.arguments + da.n_arguments, arguments);
     }
+    */
 }
 // Оператор копирования
 dataBase & dataBase::operator=(const dataBase &da) {
@@ -24,61 +28,65 @@ dataBase & dataBase::operator=(const dataBase &da) {
 }
 // Конструктор перемещения
 dataBase::dataBase(dataBase &&da) noexcept {
-    name = std::move(da.name);
-    type = std::move(da.type);
-    n_arguments = da.n_arguments;
-    arguments = da.arguments;
+    movie = std::move(da.movie);
+    director = std::move(da.director);
+    year = da.year;
+    //arguments = da.arguments;
     comment = std::move(da.comment);
-    da.n_arguments = 0;
-    da.name = da.type = da.comment = "";
-    da.arguments = nullptr;
+    da.year = 0;
+    da.movie = da.director = da.comment = "";
+    //da.arguments = nullptr;
 }
 // Оператор перемещения
 dataBase & dataBase::operator=(dataBase &&da) noexcept {
     if (this != &da) {
         swap(*this, da);
-        da.n_arguments = 0;
-        da.name = da.type = da.comment = "";
-        delete[] da.arguments;
-        da.arguments = nullptr;
+        da.year = 0;
+        da.movie = da.director = da.comment = "";
+        //delete[] da.arguments;
+        //da.arguments = nullptr;
     }
     return *this;
 }
 // Деструктор
+/*
 dataBase::~dataBase() {
     delete[] arguments;
 }
+*/
 // Оператор получения элемента по индексу I
+/*
 QString & dataBase::operator[](int i) {
     return arguments[i];
 }
+*/
 // Очистка массива
 void dataBase::clear() {
-    n_arguments = 0;
-    name = type = comment = "";
-    delete[] arguments;
-    arguments = nullptr;
+    year = 0;
+    movie = director = comment = "";
+    //delete[] arguments;
+    //arguments = nullptr;
 }
 // Оператор приведения к типу bool
 dataBase::operator bool() {
-    return !name.isEmpty() || !type.isEmpty() || !comment.isEmpty() ||
-           n_arguments != 0 || arguments != nullptr;
+    return !movie.isEmpty() || !director.isEmpty() || !comment.isEmpty() ||
+           year != 0 /*|| arguments != nullptr*/;
 }
 // Установка имени
 void dataBase::setName(QString arg) {
-    name = arg;
+    movie = arg;
 }
 // Получение имени
 const QString & dataBase::getName() {
-    return name;
+    return movie;
 }
 // Установка типа
 void dataBase::setType(QString arg) {
-    type = arg;
+    director = arg;
 }
     // Получение имени
     const QString & dataBase::getType() {
-    return type;
+    return director;
 }
 // Установка комментария
 void dataBase::setComment(QString arg) {
@@ -90,9 +98,10 @@ const QString & dataBase::getComment() {
 }
 // Получение количества аргументов
 const int & dataBase::getNArguments() {
-    return n_arguments;
+    return year;
 }
 // Установка числа аргументов
+/*
 void dataBase::setNArguments(int n) {
     if (n > 0) {
         QString *temp = new QString[static_cast<unsigned>(n)];
@@ -108,10 +117,17 @@ void dataBase::setNArguments(int n) {
     arguments = nullptr;
     n_arguments = 0;
 }
+*/
+
+void dataBase::setNArguments(int n)
+{
+    year = n;
+}
+
 void swap(dataBase &first, dataBase &second) noexcept {
-    std::swap(first.name, second.name);
-    std::swap(first.type, second.type);
-    std::swap(first.n_arguments, second.n_arguments);
-    std::swap(first.arguments, second.arguments);
+    std::swap(first.movie, second.movie);
+    std::swap(first.director, second.director);
+    std::swap(first.year, second.year);
+    //std::swap(first.arguments, second.arguments);
     std::swap(first.comment, second.comment);
 }

@@ -20,6 +20,17 @@ public:
 private:
 
     QDialogButtonBox* buttonBox;
+    QVBoxLayout* addDialogMainLayout;
+
+    QWidget* row1;
+    QWidget* row2;
+    QWidget* row3;
+    QWidget* row4;
+    QHBoxLayout* row1Layout;
+    QHBoxLayout* row2Layout;
+    QHBoxLayout* row3Layout;
+    QHBoxLayout* row4Layout;
+
     QLineEdit* lineEdit;
     QLineEdit* lineEdit_2;
     QLineEdit* lineEdit_3;

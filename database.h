@@ -9,13 +9,13 @@ class dataBase
 {
 private:
     // Имя
-    QString name = "";
+    QString movie = "";
     // Тип
-    QString type = "";
+    QString director = "";
     // Количество аргументов
-    int n_arguments = 0;
+    int year = 0;
     // Аргументы
-    QString *arguments = nullptr;
+    //QString *arguments = nullptr;
     // Комментарий к функции
     QString comment = "";
 
@@ -24,7 +24,7 @@ public:
     dataBase();
 
     // Конструктор
-    explicit dataBase(QString name, QString type, QString comment, int n);
+    explicit dataBase(QString movie, QString director, int year, QString comment);  // name заменил на movie, type заменил на director, comment и int n заменил местами, переименовав int n в int year;
 
     // Конструктор копирования
     dataBase(const dataBase &da);
@@ -35,9 +35,9 @@ public:
     // Оператор перемещения
     dataBase &operator=(dataBase &&da) noexcept;
     // Деструктор
-    virtual ~dataBase();
+    //virtual ~dataBase();
     // Оператор получения элемента по индексу I
-    QString &operator[](int i);
+    //QString &operator[](int i);
     // Очистка массива
     void clear();
     // Оператор приведения к типу bool
@@ -98,11 +98,12 @@ public:
         inline iterator operator-(int j) const { return iterator(i-j); }
         inline int operator-(iterator j) const { return int(i - j.i); }
     };
+    /*
     inline typename dataBase::iterator begin() { return
                                                  iterator(&arguments[0]); }
     inline typename dataBase::iterator end() { return
                                                iterator(&arguments[n_arguments]); }
-
+    */
 };
 
 #endif // DATABASE_H
