@@ -1,13 +1,10 @@
 #include "add_dialog.h"
-//#include "ui_add_dialog.h"
+
 
 
 Add_Dialog::Add_Dialog(QWidget *parent) :
-    QDialog(parent)//,
-    //ui(new Ui::Add_Dialog)
+    QDialog(parent)
 {
-    //ui->setupUi(this);
-
     this->setGeometry(0, 0, 400, 280);
     this->show();
     this->setFixedSize(size());
@@ -86,13 +83,6 @@ Add_Dialog::Add_Dialog(QWidget *parent) :
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
 
-/*
-Add_Dialog::~Add_Dialog()
-{
-    delete ui;
-}
-*/
-
 void Add_Dialog::setDirector(QString arg)
 {
     lineEdit->setText(arg);
@@ -121,20 +111,9 @@ dataBase Add_Dialog::getData()
 {
     dataBase result;
 
-    //QString edit3 = lineEdit_3->text().simplified().replace(";", ",");
-    /*
-    if (edit3.size() > 0)
-    {
-        QStringList temp = edit3.replace(";", ",").split(",");
-        int len = temp.size();
-        result.setNArguments(len);
-        std::copy(temp.begin(), temp.end(), result.begin());          //эта строка должна отвечать за перенос информации из arguments
-    }
-    */
-
     result.setMovie(lineEdit_2->text().simplified().replace(";", ","));
     result.setDirector(lineEdit->text().simplified().replace(";", ","));
-    result.setYear(lineEdit_3->text().toInt()/*.simplified().replace(";", ",")*/);      //по идее, данная строка полностью покрывает исполнение закоменченной части
+    result.setYear(lineEdit_3->text().toInt());
     result.setComment(lineEdit_4->text().simplified().replace(";", ","));
     return result;
 }

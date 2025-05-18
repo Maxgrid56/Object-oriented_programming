@@ -1,13 +1,9 @@
 #include "show_data.h"
-#include "ui_show_data.h"
 
 
 Show_Data::Show_Data(QWidget *parent) :
-    QDialog(parent)//,
-    //ui(new Ui::Show_Data)
+    QDialog(parent)
 {
-    //ui->setupUi(this);            //попробуй не использовать закомменченые части кода.
-
     this->setGeometry(0, 0, 570, 480);
     this->show();
     this->setWindowTitle("CSV-отображение");
@@ -19,7 +15,7 @@ Show_Data::Show_Data(QWidget *parent) :
     showDataMainLayout->addWidget(textEdit);
     showDataMainLayout->addWidget(pushButton);
 
-    connect(pushButton, SIGNAL(clicked(bool)), this, SLOT(on_pushButton_clicked()));
+    connect(pushButton, SIGNAL(clicked(bool)), this, SLOT(pushButton_clicked()));
 
     this->setLayout(showDataMainLayout);
 }
@@ -33,13 +29,8 @@ QString Show_Data::getText()
 {
     return textEdit->toPlainText();
 }
-/*
-Show_Data::~Show_Data()
-{
-    delete ui;
-}
-*/
-void Show_Data::on_pushButton_clicked()
+
+void Show_Data::pushButton_clicked()
 {
     this->close();
 }

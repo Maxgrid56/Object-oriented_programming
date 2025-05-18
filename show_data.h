@@ -15,7 +15,7 @@ public:
     //~Show_Data();
 
 private slots:
-    void on_pushButton_clicked();
+    void pushButton_clicked();
 
 private:
 

@@ -42,7 +42,7 @@ private:
     QTableWidget* tableWidget;
     QStringList headers ={"Название", "Режиссёр", "Год выхода", "Комментарий"};     //все строки с названиями столбцов
 
-    QLineEdit* lineEdit;
+    //QLineEdit* lineEdit;
 
     QMenuBar* menuBar;                          //строка с меню
 
@@ -64,46 +64,23 @@ private:
     QAction* action_ShowData;
 
     QAction* action_about;                      //акшены menu_3
-    /*
-    void setText(const QString &str);           //функции и слоты из show_data
-    QString getText();
 
-    dataBase getData();                         //функции и слоты из add_dialog
-    void setType(QString arg);
-    void setName(QString arg);
-    void setArgs(QString arg);
-    void setComment(QString arg);
-    */
 private slots:
-    void on_action_New_triggered();
-    void on_action_About_triggered();
-    void on_action_Exit_triggered();
-    void on_action_Add_triggered();
-    void on_lineEdit_textChanged(const QString &arg1);
-    void on_action_Edit_triggered();
-    void on_action_Delete_triggered();
-    void on_action_Clear_triggered();
-    void on_action_Open_triggered(bool isClean = true);
-    void on_action_Save_triggered();
-    void on_action_SaveAs_triggered();
-    void on_action_Merge_triggered();
-    void on_tableWidget_cellDoubleClicked(int, int);
-    void on_action_ShowData_triggered();
+    void action_New_triggered();
+    void action_About_triggered();
+    void action_Exit_triggered();
+    void action_Add_triggered();
+    //void on_lineEdit_textChanged(const QString &arg1);
+    void action_Edit_triggered();
+    void action_Delete_triggered();
+    void action_Clear_triggered();
+    void action_Open_triggered(bool isClean = true);
+    void action_Save_triggered();
+    void action_SaveAs_triggered();
+    void action_Merge_triggered();
+    void tableWidget_cellDoubleClicked(int, int);
+    void action_ShowData_triggered();
 
-    /*
-    void on_pushButton_clicked();
-    */
-    /*
-    QWidget* mainWidget;
-    QWidget* mainWidgetTop;                            //виджеты проекта
-
-    QVBoxLayout* mainWidgetLayout;
-    QHBoxLayout* mainWidgetLayoutTop;                  //лейауты проекта
-
-    QPushButton* fileButton;
-    QPushButton* addButton;
-    QPushButton* helpButton;
-    */
 
 };
 #endif // MAINWINDOW_H
