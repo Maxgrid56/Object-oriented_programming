@@ -43,21 +43,21 @@ public:
     // Оператор приведения к типу bool
     explicit operator bool();
     // Установка имени
-    void setName(QString arg);
+    void setMovie(QString arg);
         // Получение имени
-        const QString &getName();
+        const QString &getMovie();
     // Установка типа
-    void setType(QString arg);
+    void setDirector(QString arg);
     // Получение имени
-    const QString &getType();
+    const QString &getDirector();
     // Установка комментария
     void setComment(QString arg);
     // Получение комментария
     const QString &getComment();
     // Получение количества аргументов
-    const int &getNArguments();
+    const int &getYear();
     // Установка числа аргументов
-    void setNArguments(int n);
+    void setYear(int n);
     friend void swap(dataBase &first, dataBase &second) noexcept;
     // Класс итератора по аргументам
     class iterator {

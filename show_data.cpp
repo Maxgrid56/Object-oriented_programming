@@ -19,6 +19,8 @@ Show_Data::Show_Data(QWidget *parent) :
     showDataMainLayout->addWidget(textEdit);
     showDataMainLayout->addWidget(pushButton);
 
+    connect(pushButton, SIGNAL(clicked(bool)), this, SLOT(on_pushButton_clicked()));
+
     this->setLayout(showDataMainLayout);
 }
 

@@ -13,9 +13,9 @@ public:
     /*explicit*/ Add_Dialog(QWidget *parent = nullptr);
     //~Add_Dialog();
     dataBase getData();
-    void setType(QString arg);
-    void setName(QString arg);
-    void setArgs(QString arg);
+    void setDirector(QString arg);
+    void setMovie(QString arg);
+    void setYear(QString arg);
     void setComment(QString arg);
 private:
 

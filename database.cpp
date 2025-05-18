@@ -73,19 +73,19 @@ dataBase::operator bool() {
            year != 0 /*|| arguments != nullptr*/;
 }
 // Установка имени
-void dataBase::setName(QString arg) {
+void dataBase::setMovie(QString arg) {
     movie = arg;
 }
 // Получение имени
-const QString & dataBase::getName() {
+const QString & dataBase::getMovie() {
     return movie;
 }
 // Установка типа
-void dataBase::setType(QString arg) {
+void dataBase::setDirector(QString arg) {
     director = arg;
 }
     // Получение имени
-    const QString & dataBase::getType() {
+    const QString & dataBase::getDirector() {
     return director;
 }
 // Установка комментария
@@ -97,7 +97,7 @@ const QString & dataBase::getComment() {
     return comment;
 }
 // Получение количества аргументов
-const int & dataBase::getNArguments() {
+const int & dataBase::getYear() {
     return year;
 }
 // Установка числа аргументов
@@ -119,7 +119,7 @@ void dataBase::setNArguments(int n) {
 }
 */
 
-void dataBase::setNArguments(int n)
+void dataBase::setYear(int n)
 {
     year = n;
 }

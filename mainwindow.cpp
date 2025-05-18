@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setGeometry(0, 0, 920, 480);
+    this->setFixedSize(920, 480);
 
     //this->resize(920, 480);
     this->setWindowTitle("Характеристики фильмов");
@@ -38,6 +38,10 @@ MainWindow::MainWindow(QWidget *parent)
     tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     tableWidget->setTextElideMode(Qt::ElideMiddle);
     tableWidget->setHorizontalHeaderLabels(headers);
+    tableWidget->setColumnWidth(0, 220);
+    tableWidget->setColumnWidth(1, 220);
+    tableWidget->setColumnWidth(2, 110);
+    tableWidget->setColumnWidth(3, 350);
 
     connect(tableWidget, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(on_tableWidget_cellDoubleClicked(int,int)));
 
@@ -88,7 +92,7 @@ MainWindow::MainWindow(QWidget *parent)
     menuBar->addMenu(menu);
 
     menu_2 = new QMenu;
-    menu_2->setTitle("Записи");
+    menu_2->setTitle("Запись");
 
     action_Add = new QAction;
     action_Delete = new QAction;
@@ -212,10 +216,10 @@ void MainWindow::on_action_Add_triggered()
         //auto len = t.getNArguments();
 
         tableWidget->setRowCount(tableWidget->rowCount() + 1);
-        tableWidget->setItem(tableWidget->rowCount() - 1, 0, new QTableWidgetItem(t.getType()));
+        tableWidget->setItem(tableWidget->rowCount() - 1, 0, new QTableWidgetItem(t.getDirector()));
         //tableWidget->item(tableWidget->rowCount() - 1, 0)->setTextColor(typeColor);
-        tableWidget->setItem(tableWidget->rowCount() - 1, 1, new QTableWidgetItem(t.getName()));
-        tableWidget->setItem(tableWidget->rowCount() - 1, 2, new QTableWidgetItem(/*QString::number(len)*/ QString::number(t.getNArguments())));
+        tableWidget->setItem(tableWidget->rowCount() - 1, 1, new QTableWidgetItem(t.getMovie()));
+        tableWidget->setItem(tableWidget->rowCount() - 1, 2, new QTableWidgetItem(/*QString::number(len)*/ QString::number(t.getYear())));
         /*
         QString arg = "";
 
@@ -267,19 +271,19 @@ void MainWindow::on_action_Edit_triggered()
     if (list.size() > 0)
     {
         Add_Dialog myDialog;
-        myDialog.setType(list.at(0)->text());
-        myDialog.setName(list.at(1)->text());
-        myDialog.setArgs(list.at(2)->text());
+        myDialog.setDirector(list.at(0)->text());
+        myDialog.setMovie(list.at(1)->text());
+        myDialog.setYear(list.at(2)->text());
         myDialog.setComment(list.at(3)->text());
 
         if (myDialog.exec() == QDialog::Accepted)
         {
             dataBase t = myDialog.getData();
-            list.at(0)->setText(t.getType());
-            list.at(1)->setText(t.getName());
-            list.at(2)->setText(QString::number(t.getNArguments()));
+            list.at(0)->setText(t.getDirector());
+            list.at(1)->setText(t.getMovie());
+            list.at(2)->setText(QString::number(t.getYear()));
             //auto len = t.getNArguments();
-            QString arg = "";
+            //QString arg = "";
             /*
             if (len > 0)
             {
@@ -293,9 +297,9 @@ void MainWindow::on_action_Edit_triggered()
             */
             //list.at(3)->setText(arg);
             list.at(3)->setText(t.getComment());
-            main_vector[list.at(0)->row()].setType(t.getType());
-            main_vector[list.at(1)->row()].setName(t.getName());
-            main_vector[list.at(2)->row()].setNArguments(t.getNArguments());
+            main_vector[list.at(0)->row()].setDirector(t.getDirector());
+            main_vector[list.at(1)->row()].setMovie(t.getMovie());
+            main_vector[list.at(2)->row()].setYear(t.getYear());
             //int k = list.at(3)->row();
             //std::copy(t.begin(), t.end(), main_vector[k].begin());
             main_vector[list.at(3)->row()].setComment(t.getComment());
@@ -386,8 +390,8 @@ void MainWindow::on_action_Open_triggered(bool isClean)             //нужно
 
                 if (fields.size() == 4)
                 {
-                    t.setType(fields[0].simplified());
-                    t.setName(fields[1].simplified());
+                    t.setDirector(fields[0].simplified());
+                    t.setMovie(fields[1].simplified());
                     //QString s_args = "";
                     //QStringList args = fields[2].split(",");
                     //auto len = args.size();
@@ -404,13 +408,13 @@ void MainWindow::on_action_Open_triggered(bool isClean)             //нужно
                         }
                     }
                     */
-                    t.setNArguments(fields[2].toInt());
+                    t.setYear(fields[2].toInt());
                     t.setComment(fields[3].simplified());
                     tableWidget->setRowCount(tableWidget->rowCount() + 1);
-                    tableWidget->setItem(tableWidget->rowCount() -1, 0, new QTableWidgetItem(t.getType()));
+                    tableWidget->setItem(tableWidget->rowCount() -1, 0, new QTableWidgetItem(t.getDirector()));
                     //tableWidget->item(tableWidget->rowCount() - 1,0)->setTextColor(typeColor);
-                    tableWidget->setItem(tableWidget->rowCount() -1, 1, new QTableWidgetItem(t.getName()));
-                    tableWidget->setItem(tableWidget->rowCount() -1, 2, new QTableWidgetItem(QString::number(t.getNArguments())));
+                    tableWidget->setItem(tableWidget->rowCount() -1, 1, new QTableWidgetItem(t.getMovie()));
+                    tableWidget->setItem(tableWidget->rowCount() -1, 2, new QTableWidgetItem(QString::number(t.getYear())));
                     //tableWidget->setItem(tableWidget->rowCount() -1, 3, new QTableWidgetItem(s_args));
                     tableWidget->setItem(tableWidget->rowCount() -1, 3, new QTableWidgetItem(t.getComment()));
                     //tableWidget->item(tableWidget->rowCount() - 1,4)->setTextColor(commentColor);
@@ -495,7 +499,7 @@ void MainWindow::on_action_ShowData_triggered()
     QString s;
     for (auto &k : main_vector)
     {
-        QString arg = QString::number(k.getNArguments());
+        QString arg = QString::number(k.getYear());
         //int len = k.getNArguments();
         /*
         if (len > 0)
@@ -507,7 +511,7 @@ void MainWindow::on_action_ShowData_triggered()
             }
         }
         */
-        s += k.getType() + ";" + k.getName() + ";" + arg + ";" +
+        s += k.getDirector() + ";" + k.getMovie() + ";" + arg + ";" +
         k.getComment() + "\n";
     }
 

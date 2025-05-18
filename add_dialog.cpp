@@ -34,17 +34,17 @@ Add_Dialog::Add_Dialog(QWidget *parent) :
 
     label = new QLabel();
     label->setGeometry(10, 60, 191, 31);
-    label->setText("Название фильма:");
+    label->setText("Фильм:");
     label->setAlignment(Qt::AlignCenter);
 
     label_2 = new QLabel();
     label_2->setGeometry(10, 20, 191, 31);
-    label_2->setText("Второй столбик:");
+    label_2->setText("Режиссёр:");
     label_2->setAlignment(Qt::AlignCenter);
 
     label_3 = new QLabel();
     label_3->setGeometry(10, 100, 381, 31);
-    label_3->setText("Третий Столбик:");
+    label_3->setText("Год выхода:");
     label_3->setAlignment(Qt::AlignCenter);
 
     label_4 = new QLabel();
@@ -93,19 +93,19 @@ Add_Dialog::~Add_Dialog()
 }
 */
 
-void Add_Dialog::setType(QString arg)
+void Add_Dialog::setDirector(QString arg)
 {
     lineEdit->setText(arg);
 }
 
 
-void Add_Dialog::setName(QString arg)
+void Add_Dialog::setMovie(QString arg)
 {
     lineEdit_2->setText(arg);
 }
 
 
-void Add_Dialog::setArgs(QString arg)
+void Add_Dialog::setYear(QString arg)
 {
     lineEdit_3->setText(arg);
 }
@@ -132,9 +132,9 @@ dataBase Add_Dialog::getData()
     }
     */
 
-    result.setType(lineEdit->text().simplified().replace(";", ","));
-    result.setName(lineEdit_2->text().simplified().replace(";", ","));
-    result.setNArguments(lineEdit_3->text().toInt()/*.simplified().replace(";", ",")*/);      //по идее, данная строка полностью покрывает исполнение закоменченной части
+    result.setMovie(lineEdit_2->text().simplified().replace(";", ","));
+    result.setDirector(lineEdit->text().simplified().replace(";", ","));
+    result.setYear(lineEdit_3->text().toInt()/*.simplified().replace(";", ",")*/);      //по идее, данная строка полностью покрывает исполнение закоменченной части
     result.setComment(lineEdit_4->text().simplified().replace(";", ","));
     return result;
 }
